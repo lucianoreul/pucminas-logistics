@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Size;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
-@Entity(name = "user_account")
+@Entity(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +28,11 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Size(max = 40, min = 2)
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Column(name = "role")
     String role;
 
-    public User(String username, String name, String password) {
+    public Account(String username, String password) {
         this.username = username;
-        this.name = name;
         this.password = password;
         this.role = Role.ROLE_USER.getAuthority();
     }

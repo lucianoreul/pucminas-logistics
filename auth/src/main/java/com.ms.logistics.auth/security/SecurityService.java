@@ -1,6 +1,6 @@
 package com.ms.logistics.auth.security;
 
-import com.ms.logistics.auth.dto.LoggedUserDTO;
+import com.ms.logistics.auth.dto.LoggedAccountDTO;
 import com.ms.logistics.auth.security.authorization.Authorization;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +36,7 @@ public class SecurityService {
     }
 
 
-    public LoggedUserDTO getCurrentUser() {
-        return (LoggedUserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public LoggedAccountDTO getCurrentUser() {
+        return (LoggedAccountDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

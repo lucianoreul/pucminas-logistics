@@ -1,7 +1,7 @@
 package com.ms.logistics.auth.security;
 
-import com.ms.logistics.auth.dto.LoggedUserDTO;
-import com.ms.logistics.auth.service.UserService;
+import com.ms.logistics.auth.dto.LoggedAccountDTO;
+import com.ms.logistics.auth.service.AccountService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,7 +31,7 @@ public class TokenAuthenticationService {
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    private final UserService userService;
+    private final AccountService accountService;
 
     @Value("${app.token.secretkey}")
     private String SECRET_KEY;
@@ -42,11 +42,11 @@ public class TokenAuthenticationService {
     @Value("${app.refreshtoken.expiration}")
     private long EXPIRATION_REFRESH_TOKEN;
 
-    public TokenAuthenticationService(UserService userService) {
-        this.userService = userService;
+    public TokenAuthenticationService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    public LoggedUserDTO addAuthentication(LoggedUserDTO dto) {
+    public LoggedAccountDTO addAuthentication(LoggedAccountDTO dto) {
 
         String jwt = Jwts.builder().setId(String.valueOf(dto.getId())).setSubject(dto.getUsername())
                 .claim(AUTHORITIES_KEY, dto.getRole())
@@ -73,13 +73,13 @@ public class TokenAuthenticationService {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim()).getBody();
 
             if (claims != null) {
-                LoggedUserDTO loggedUserDTO = new LoggedUserDTO(Integer.valueOf(claims.getId()), claims.getSubject());
-                loggedUserDTO.setRole(this.userService.findById(loggedUserDTO.getId()).getRole());
+                LoggedAccountDTO loggedaccountDTO = new LoggedAccountDTO(Integer.valueOf(claims.getId()), claims.getSubject());
+                loggedaccountDTO.setRole(this.accountService.findById(loggedaccountDTO.getId()).getRole());
                 Collection<? extends GrantedAuthority> authorities =
                         Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                                 .map(SimpleGrantedAuthority::new)
                                 .collect(Collectors.toList());
-                return new UsernamePasswordAuthenticationToken(loggedUserDTO, token, authorities);
+                return new UsernamePasswordAuthenticationToken(loggedaccountDTO, token, authorities);
             }
             return null;
         }
@@ -100,7 +100,7 @@ public class TokenAuthenticationService {
                     .parseClaimsJws(refreshToken.replace(TOKEN_PREFIX, "").trim()).getBody();
 
             if (claims != null) {
-                LoggedUserDTO userDTO = new LoggedUserDTO(Integer.valueOf(claims.getId()), claims.getSubject());
+                LoggedAccountDTO userDTO = new LoggedAccountDTO(Integer.valueOf(claims.getId()), claims.getSubject());
                 return new UsernamePasswordAuthenticationToken(userDTO, null, emptyList());
             }
         }
