@@ -1,4 +1,4 @@
-package com.ms.logistics.user;
+package com.ms.logistics.user.util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

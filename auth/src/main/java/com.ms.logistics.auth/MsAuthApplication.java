@@ -1,6 +1,5 @@
 package com.ms.logistics.auth;
 
-import com.ms.logistics.auth.config.AppContext;
 import com.ms.logistics.auth.exception.BusinessException;
 import com.ms.logistics.auth.model.Account;
 import com.ms.logistics.auth.model.Role;
@@ -9,8 +8,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
@@ -22,8 +23,13 @@ public class MsAuthApplication implements CommandLineRunner {
 	public final AccountService accountService;
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(MsAuthApplication.class, args);
-		AppContext.loadApplicationContext(ctx);
+		SpringApplication.run(MsAuthApplication.class, args);
+	}
+
+	@Bean
+	@LoadBalanced
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 	@Override

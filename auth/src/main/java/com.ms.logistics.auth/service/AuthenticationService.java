@@ -4,8 +4,7 @@ import com.ms.logistics.auth.dto.LoggedAccountDTO;
 import com.ms.logistics.auth.dto.TokenDTO;
 import com.ms.logistics.auth.exception.BusinessException;
 import com.ms.logistics.auth.model.Account;
-import com.ms.logistics.auth.security.AccountCredentials;
-import com.ms.logistics.auth.security.TokenAuthenticationService;
+import com.ms.logistics.auth.model.AccountCredentials;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,11 +43,11 @@ public class AuthenticationService {
         if (auth == null) {
             throw new BusinessException("authentication.failure");
         }
-        Account accountORM = accountService.findByUsername(((LoggedAccountDTO) auth.getPrincipal()).getUsername());
-        if (accountORM == null) {
+        Optional<Account> accountOptional = accountService.findByUsername(((LoggedAccountDTO) auth.getPrincipal()).getUsername());
+        if (accountOptional.isPresent()) {
             throw new BusinessException("authentication.failure");
         }
-        LoggedAccountDTO loggedUser = toDTO(accountORM);
+        LoggedAccountDTO loggedUser = toDTO(accountOptional.get());
         tokenService.addAuthentication(loggedUser);
         return new UsernamePasswordAuthenticationToken(loggedUser, null, Collections.emptyList());
     }

@@ -4,16 +4,14 @@ import com.ms.logistics.auth.dto.AccountDTO;
 import com.ms.logistics.auth.dto.LoggedAccountDTO;
 import com.ms.logistics.auth.dto.TokenDTO;
 import com.ms.logistics.auth.exception.BusinessException;
-import com.ms.logistics.auth.security.AccountCredentials;
+import com.ms.logistics.auth.model.AccountCredentials;
 import com.ms.logistics.auth.service.AccountService;
 import com.ms.logistics.auth.service.AuthenticationService;
+import com.ms.logistics.auth.service.TokenAuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -21,11 +19,12 @@ import java.util.logging.Logger;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final AuthenticationService authService;
     private final AccountService accountService;
+    private final TokenAuthenticationService tokenAuthenticationService;
 
     private static final Logger LOGGER = Logger.getLogger(AuthenticationController.class.getName());
 
@@ -45,5 +44,11 @@ public class AuthenticationController {
     public ResponseEntity<Void> register(@Valid @NotNull @RequestBody AccountDTO accountDTO) throws BusinessException {
         this.accountService.createAccount(accountDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/validate")
+    public ResponseEntity<LoggedAccountDTO> validate(@Valid @NotNull @RequestParam String token) throws BusinessException {
+        LOGGER.info("Trying to validate token: " + token);
+        return ResponseEntity.ok(tokenAuthenticationService.isTokenInvalid(token));
     }
 }

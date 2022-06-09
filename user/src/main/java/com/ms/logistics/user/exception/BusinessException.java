@@ -1,4 +1,4 @@
-package com.ms.logistics.auth.exception;
+package com.ms.logistics.user.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -19,3 +19,4 @@ public class BusinessException extends Exception {
         return status;
     }
 }
+

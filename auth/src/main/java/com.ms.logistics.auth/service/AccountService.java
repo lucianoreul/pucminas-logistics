@@ -8,6 +8,8 @@ import com.ms.logistics.auth.util.CryptoUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class AccountService {
@@ -30,7 +32,7 @@ public class AccountService {
         }
     }
 
-    public Account findByUsername(String username) {
+    public Optional<Account> findByUsername(String username) {
         return getRepository().findByUsername(username);
     }
 

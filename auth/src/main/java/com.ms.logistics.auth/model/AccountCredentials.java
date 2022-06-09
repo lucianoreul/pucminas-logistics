@@ -1,4 +1,4 @@
-package com.ms.logistics.auth.security;
+package com.ms.logistics.auth.model;
 
 public class AccountCredentials {
 

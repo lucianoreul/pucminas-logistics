@@ -13,6 +13,7 @@
         <module>kafka</module>
         <module>user</module>
         <module>eureka-server</module>
+        <module>gateway</module>
     </modules>
 
     <name>logisticsservices</name>
