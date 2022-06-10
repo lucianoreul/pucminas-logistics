@@ -1,0 +1,50 @@
+html, body {
+  margin:0;
+  height:100%;
+}
+
+.page-content {
+  height: 100%;
+  margin:0;
+  background-color: #F6F9FF;
+}
+
+.logo-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+.login-content {
+  background-color: #FFFFFF;
+  margin: 40px;
+}
+
+.input-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+input {
+  width: 200px;
+  border: none;
+  border-bottom: solid 1px #C6C6C6;
+}
+
+input:focus {
+  box-shadow: none;
+  border-color: #C6C6C6;
+}
+
+.input-icon {
+  padding-right: 10px;
+}
+
+.btn {
+  width: 80%;
+  margin-top: 20px;
+}
+
