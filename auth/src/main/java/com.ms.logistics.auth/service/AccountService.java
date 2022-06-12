@@ -1,12 +1,13 @@
 package com.ms.logistics.auth.service;
 
 import com.ms.logistics.auth.dto.AccountDTO;
-import com.ms.logistics.auth.exception.BusinessException;
 import com.ms.logistics.auth.model.Account;
 import com.ms.logistics.auth.repository.AccountRepository;
 import com.ms.logistics.auth.util.CryptoUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -20,15 +21,15 @@ public class AccountService {
         return accountRepository;
     }
 
-    public void insert(Account account) throws BusinessException {
+    public void insert(Account account) {
         account.setPassword(CryptoUtil.hash(account.getPassword()));
         this.validateInsert(account);
         this.getRepository().save(account);
     }
 
-    protected void validateInsert(Account account) throws BusinessException {
+    protected void validateInsert(Account account) {
         if (getRepository().existsByUsername(account.getUsername())) {
-            throw new BusinessException("Username already exists.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT ,"Username already exists.");
         }
     }
 
@@ -44,7 +45,7 @@ public class AccountService {
         return getRepository().login(username, CryptoUtil.hash(password));
     }
 
-    public void createAccount(AccountDTO accountDTO) throws BusinessException {
+    public void createAccount(AccountDTO accountDTO) {
         Account account = new Account(accountDTO.getUsername(), accountDTO.getPassword());
         this.insert(account);
     }

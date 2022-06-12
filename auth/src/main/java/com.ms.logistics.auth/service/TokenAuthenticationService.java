@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -73,7 +75,7 @@ public class TokenAuthenticationService {
         return null;
     }
 
-    public LoggedAccountDTO isTokenInvalid(String token) throws BusinessException {
+    public LoggedAccountDTO isTokenInvalid(String token) {
         String username;
         try {
             username = Jwts.parser()
@@ -82,13 +84,13 @@ public class TokenAuthenticationService {
                 .getBody()
                 .getSubject();
         } catch (JwtException e) {
-            throw new BusinessException("Token is invalid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,"Token inválido");
         }
 
         Optional<Account> accountOptional = accountService.findByUsername(username);
 
         if (accountOptional.isEmpty()) {
-            throw new BusinessException("User not found");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
         }
 
         Account account = accountOptional.get();

@@ -29,25 +29,25 @@ public class AuthenticationController {
     private static final Logger LOGGER = Logger.getLogger(AuthenticationController.class.getName());
 
     @PostMapping(value = "/login")
-    public ResponseEntity<LoggedAccountDTO> login(@RequestBody AccountCredentials credentials) throws BusinessException {
+    public ResponseEntity<LoggedAccountDTO> login(@RequestBody AccountCredentials credentials) {
         LoggedAccountDTO loggedAccountDTO = authService.authenticate(credentials);
         LOGGER.info("Successfully authenticated with: " + credentials.getUsername());
         return ResponseEntity.ok(loggedAccountDTO);
     }
 
     @PostMapping(value = "/refresh")
-    public ResponseEntity<LoggedAccountDTO> refresh(@RequestBody TokenDTO body) throws BusinessException {
+    public ResponseEntity<LoggedAccountDTO> refresh(@RequestBody TokenDTO body) {
         return ResponseEntity.ok(authService.refresh(body));
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Void> register(@Valid @NotNull @RequestBody AccountDTO accountDTO) throws BusinessException {
+    public ResponseEntity<Void> register(@Valid @NotNull @RequestBody AccountDTO accountDTO) {
         this.accountService.createAccount(accountDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/validate")
-    public ResponseEntity<LoggedAccountDTO> validate(@Valid @NotNull @RequestParam String token) throws BusinessException {
+    public ResponseEntity<LoggedAccountDTO> validate(@Valid @NotNull @RequestParam String token) {
         LOGGER.info("Trying to validate token: " + token);
         return ResponseEntity.ok(tokenAuthenticationService.isTokenInvalid(token));
     }
