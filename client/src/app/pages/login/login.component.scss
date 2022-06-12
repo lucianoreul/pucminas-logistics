@@ -1,11 +1,6 @@
-html, body {
-  margin:0;
-  height:100%;
-}
-
 .page-content {
-  height: 100%;
-  margin:0;
+  min-height: 100vh;
+  height: auto;
   background-color: #F6F9FF;
 }
 
@@ -25,10 +20,9 @@ html, body {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
-input {
+.input-text {
   width: 200px;
   border: none;
   border-bottom: solid 1px #C6C6C6;

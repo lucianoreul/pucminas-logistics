@@ -82,13 +82,13 @@ public class TokenAuthenticationService {
                 .getBody()
                 .getSubject();
         } catch (JwtException e) {
-            throw new BusinessException("Token is invalid", HttpStatus.UNAUTHORIZED);
+            throw new BusinessException("Token is invalid");
         }
 
         Optional<Account> accountOptional = accountService.findByUsername(username);
 
         if (accountOptional.isEmpty()) {
-            throw new BusinessException("User not found", HttpStatus.NOT_FOUND);
+            throw new BusinessException("User not found");
         }
 
         Account account = accountOptional.get();

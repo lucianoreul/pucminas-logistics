@@ -9,8 +9,7 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(credentials: any): Observable<any> {
-    const headers= new HttpHeaders().set('Access-Control-Allow-Origin', '*');
-    return this.http.post(`${SERVER_API_URL}/api/auth/login`, credentials, { observe: 'response', headers: headers });
+    return this.http.post(`${SERVER_API_URL}/api/auth/login`, credentials, { observe: 'response' });
   }
 
   logout(): Observable<any> {

@@ -4,21 +4,23 @@
     <img src="../../../assets/image/app-logo.png">
   </div>
 
-  <div class="login-content d-flex flex-column justify-content-center align-items-center">
+  <div class="login-content d-flex flex-column justify-content-center p-3">
 
     <div class="input-content">
       <img class="input-icon" src="assets/icones/person-ic.svg">
-      <input class="form-control" type="text" placeholder="Username" [(ngModel)]="userLogin.username">
+      <input class="form-control input-text" type="text" placeholder="Username" [(ngModel)]="userLogin.username">
     </div>
 
-    <div class="input-content">
+    <div class="input-content mt-4">
       <img class="input-icon" src="assets/icones/lock-ic.svg">
-      <input class="form-control" type="password" placeholder="Password" [(ngModel)]="userLogin.password">
+      <input class="form-control input-text" type="password" placeholder="Password" [(ngModel)]="userLogin.password">
     </div>
 
-    <button class="btn btn-primary" (click)="login()">
-      <Label class="text-uppercase">Entrar</Label>
-    </button>
+    <div class="input-content mt -4">
+      <button class="btn btn-primary" (click)="login()">
+        <Label class="text-uppercase">Entrar</Label>
+      </button>
+    </div>
 
   </div>
 </div>

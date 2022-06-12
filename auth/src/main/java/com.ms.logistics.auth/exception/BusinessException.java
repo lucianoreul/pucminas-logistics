@@ -1,21 +1,41 @@
 package com.ms.logistics.auth.exception;
 
-import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BusinessException extends Exception {
 
-    private final HttpStatus status;
+    /**
+     * Serial Version UID.
+     */
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
+     * Constructor.
+     *
+     * @param message
+     * 		Message text
+     */
     public BusinessException(String message) {
         this(message, null);
     }
 
-    public BusinessException(String message, HttpStatus status) {
-        super(message);
-        this.status = status;
-    }
+    /**
+     * Constructor.
+     *
+     * @param message
+     * 		Message text.
+     * @param e
+     * 		Exception.
+     */
+    public BusinessException(String message, Exception e) {
+        super(message, e);
 
-    public HttpStatus getStatus() {
-        return status;
+        logger.error(this.getMessage());
     }
 }

@@ -25,7 +25,7 @@ public class AuthenticationService {
     public Authentication attemptAuthentication(AccountCredentials credentials) throws BusinessException {
         Account loggedAccount = accountService.login(credentials.getUsername(), credentials.getPassword());
         if (loggedAccount == null) {
-            throw new BusinessException("authentication.failure");
+            throw new BusinessException("Falha na Autenticação.");
         }
         LoggedAccountDTO loggedAccountDTO = toDTO(loggedAccount);
         tokenService.addAuthentication(loggedAccountDTO);
