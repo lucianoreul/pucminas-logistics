@@ -1,6 +1,5 @@
 package com.ms.logistics.user.controllers;
 
-import com.ms.logistics.user.exception.BusinessException;
 import com.ms.logistics.user.dto.UserDTO;
 import com.ms.logistics.user.services.UserService;
 import com.ms.logistics.user.vo.UserVO;
@@ -30,7 +29,7 @@ public class UserController {
     public ResponseEntity<Void> register(
             @Valid @NotNull @RequestBody UserDTO userDTO,
             @Valid @NotNull @RequestHeader("X-auth-user-id") Integer accountId
-    ) throws BusinessException {
+    ) {
         this.userService.createUser(userDTO, accountId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

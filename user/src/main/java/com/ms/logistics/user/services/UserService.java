@@ -2,13 +2,12 @@ package com.ms.logistics.user.services;
 
 import com.ms.logistics.user.domain.User;
 import com.ms.logistics.user.dto.UserDTO;
-import com.ms.logistics.user.exception.AppException;
-import com.ms.logistics.user.exception.BusinessException;
 import com.ms.logistics.user.repository.UserRepository;
 import com.ms.logistics.user.vo.UserVO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -27,15 +26,15 @@ public class UserService {
         if (userOptional.isPresent()) {
             return new UserVO(userOptional.get());
         }
-        throw new AppException("User not found", HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
     }
 
-    public void createUser(UserDTO userDTO, Integer accountId) throws BusinessException {
+    public void createUser(UserDTO userDTO, Integer accountId) {
         if (userRepository.findByAccountId(accountId).isEmpty()) {
             User user = new User(userDTO, accountId);
             this.userRepository.save(user);
         } else {
-            throw new BusinessException("User Exists", HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User Exists");
         }
     }
 
