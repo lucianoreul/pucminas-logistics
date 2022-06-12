@@ -2,6 +2,7 @@ package com.ms.logistics.user.services;
 
 import com.ms.logistics.user.domain.User;
 import com.ms.logistics.user.dto.UserDTO;
+import com.ms.logistics.user.exception.AppException;
 import com.ms.logistics.user.exception.BusinessException;
 import com.ms.logistics.user.repository.UserRepository;
 import com.ms.logistics.user.vo.UserVO;
@@ -21,13 +22,12 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    public UserVO getUserByAccountId(Integer id) throws BusinessException {
+    public UserVO getUserByAccountId(Integer id) {
         Optional<User> userOptional = this.userRepository.findByAccountId(id);
         if (userOptional.isPresent()) {
             return new UserVO(userOptional.get());
-        } else {
-            throw new BusinessException("User not found", HttpStatus.NOT_FOUND);
         }
+        throw new AppException("User not found", HttpStatus.NOT_FOUND);
     }
 
     public void createUser(UserDTO userDTO, Integer accountId) throws BusinessException {

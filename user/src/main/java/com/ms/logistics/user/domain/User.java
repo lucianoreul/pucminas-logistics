@@ -21,7 +21,7 @@ public class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "accountId")
+    @Column(name = "accountId", nullable = false)
     private Integer accountId;
 
     @Size(max = 40, min = 2)
@@ -32,18 +32,25 @@ public class User {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
+    @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "phone_number")
     private String phone;
 
+    @Column(name = "birthday")
     private String birthday;
 
+    @Column(name = "area")
     private String area;
 
-    private Long Sector;
+    @Column(name = "sector")
+    private Long sector;
 
+    @Column(name = "material")
     private String material;
 
+    @Column(name = "imageB64")
     private String imageB64;
 
     public User(UserDTO dto, Integer accountId) {
@@ -53,7 +60,7 @@ public class User {
         this.phone = dto.getPhone();
         this.birthday = dto.getBirthday();
         this.area = dto.getArea();
-        this.Sector = dto.getSector();
+        this.sector = dto.getSector();
         this.material = dto.getMaterial();
         this.imageB64 = dto.getImageB64();
         this.accountId = accountId;

@@ -22,7 +22,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UserVO> getByAccountId(
             @Valid @NotNull @RequestHeader("X-auth-user-id") Integer accountId
-    ) throws BusinessException {
+    ) {
         return ResponseEntity.ok(this.userService.getUserByAccountId(accountId));
     }
 
