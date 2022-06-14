@@ -24,8 +24,12 @@ export class HeaderComponent implements OnInit {
     return this.router.url === '/home';
   }
 
-  isStock() {
-    return this.router.url === '/stock';
+  isStockOperation() {
+    return this.router.url === '/stock-operation';
+  }
+
+  isStockConcluded() {
+    return this.router.url === '/stock-concluded';
   }
 
   isStockForm() {
@@ -36,16 +40,20 @@ export class HeaderComponent implements OnInit {
     return this.router.url.includes('/stock/view/');
   }
 
+  isUser() {
+    return this.router.url.includes('/user');
+  }
+
   isSettings() {
     return this.router.url === '/settings';
   }
 
-  goToStockForm() {
-    this.router.navigateByUrl('stock/new');
+  refreshPage() {
+    window.location.reload();
   }
 
   hideMenuButton() {
-    return this.isHome() || this.isStock() || this.isSettings();
+    return this.isHome() || this.isStockOperation() || this.isSettings() || this.isStockConcluded();
   }
 
   back() {

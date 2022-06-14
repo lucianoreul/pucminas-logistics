@@ -19,7 +19,11 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'stock',
+    path: 'stock-operation',
+    component: StockComponent
+  },
+  {
+    path: 'stock-concluded',
     component: StockComponent
   },
   {

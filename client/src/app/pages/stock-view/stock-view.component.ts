@@ -82,17 +82,17 @@ export class StockViewComponent implements OnInit {
 
   handleIniciateSuccess() {
     this.toastrService.success('Este pedido foi iniciado.');
-    this.router.navigateByUrl('/stock').then();
+    this.router.navigateByUrl('/stock-operation').then();
   }
 
   handleConclude() {
     this.toastrService.success('Este pedido foi concluido com sucesso.');
-    this.router.navigateByUrl('/stock').then();
+    this.router.navigateByUrl('/stock-operation').then();
   }
 
   handleJustifySuccess() {
     this.toastrService.success('Este pedido foi justificado com sucesso.');
-    this.router.navigateByUrl('/stock').then();
+    this.router.navigateByUrl('/stock-operation').then();
   }
 
   getStatus(status: number): string {

@@ -19,8 +19,8 @@ export class StockService {
     return this.http.get<IStockModel>(`${this.resourceUrl}/${id}`);
   }
 
-  getAll(): Observable<Array<IStockModel>> {
-    return this.http.get<Array<IStockModel>>(`${this.resourceUrl}`);
+  getAll(operation: boolean): Observable<Array<IStockModel>> {
+    return this.http.get<Array<IStockModel>>(`${this.resourceUrl}?operation=${operation}`);
   }
 
   update(stock: IStockModel, id: any): Observable<any> {

@@ -40,8 +40,12 @@ public class StockService {
         return new StockVO(stock);
     }
 
-    public List<StockVO> getAll() {
-        return this.stockRepository.findAll().stream().map(StockVO::new).collect(Collectors.toList());
+    public List<StockVO> getAll(boolean operation) {
+        if (operation) {
+            return this.stockRepository.findAll().stream().filter(stock -> stock.getStatus() == 1 || stock.getStatus() == 2).map(StockVO::new).collect(Collectors.toList());
+        } else {
+            return this.stockRepository.findAll().stream().filter(stock -> stock.getStatus() == 3 || stock.getStatus() == 4).map(StockVO::new).collect(Collectors.toList());
+        }
     }
 
     @Transactional

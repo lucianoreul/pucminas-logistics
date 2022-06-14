@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-settings-card',
@@ -11,11 +12,17 @@ export class SettingsCardComponent implements OnInit {
 
   @Input() title: string | undefined;
 
-  @Input() url: string | undefined;
+  @Input() url: any;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  goToPage() {
+    if (this.url !== null || this.url !== '') {
+      this.router.navigateByUrl(this.url).then();
+    }
   }
 
 }

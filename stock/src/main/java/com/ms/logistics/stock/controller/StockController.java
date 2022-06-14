@@ -24,8 +24,8 @@ public class StockController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StockVO>> getAll() {
-        return ResponseEntity.ok(this.stockService.getAll());
+    public ResponseEntity<List<StockVO>> getAll(@Valid @NotNull @RequestParam boolean operation) {
+        return ResponseEntity.ok(this.stockService.getAll(operation));
     }
 
     @GetMapping("/{id}")

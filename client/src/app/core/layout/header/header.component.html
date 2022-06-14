@@ -8,15 +8,17 @@
     </button>
   </div>
   <div>
-    <a *ngIf="isHome()" routerLink="/home">Inicio</a>
-    <a *ngIf="isStock()" routerLink="/stock">Atentimento de linha</a>
-    <a *ngIf="isSettings()" routerLink="/settings">Configurações</a>
-    <a *ngIf="isStockForm()" routerLink="/stock/new">Criação de pedido</a>
-    <a *ngIf="isStockView()" routerLink="/stock/view">Visualização de pedido</a>
+    <a *ngIf="isHome()">Inicio</a>
+    <a *ngIf="isStockOperation()">Atentimento de linha</a>
+    <a *ngIf="isStockConcluded()">Atentimentos concluidos</a>
+    <a *ngIf="isSettings()">Configurações</a>
+    <a *ngIf="isStockForm()">Criação manual de pedido</a>
+    <a *ngIf="isStockView()">Visualização de pedido</a>
+    <a *ngIf="isUser()">Usuário</a>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end">
-    <button mat-icon-button *ngIf="isStock()" (click)="goToStockForm()">
-      <mat-icon>add</mat-icon>
+    <button mat-icon-button *ngIf="isStockOperation()" (click)="refreshPage()">
+      <mat-icon>refresh</mat-icon>
     </button>
   </div>
 </mat-toolbar>

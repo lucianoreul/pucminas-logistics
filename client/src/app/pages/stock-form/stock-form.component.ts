@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { StockService } from '../../core/services/stock.service';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-stock-form',
@@ -18,7 +19,8 @@ export class StockFormComponent implements OnInit {
     private fb: FormBuilder,
     private stockService: StockService,
     private router: Router,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private location: Location
   ) {
     this.form = this.fb.group({
       drawing: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
@@ -44,7 +46,7 @@ export class StockFormComponent implements OnInit {
 
   handleSuccess() {
     this.toastService.success('Pedido criado com sucesso.');
-    this.router.navigateByUrl('/stock').then();
+    this.location.back();
   }
 
   handleError(error: any) {

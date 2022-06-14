@@ -3,9 +3,13 @@
     <mat-icon>home</mat-icon>
     <span class="nav-caption">Inicio</span>
   </a>
-  <a mat-list-item routerLink="/stock" (click)="onSidenavClose()">
+  <a mat-list-item routerLink="/stock-operation" (click)="onSidenavClose()">
     <mat-icon>widgets</mat-icon>
     <span class="nav-caption">Atendimento de linha</span>
+  </a>
+  <a mat-list-item routerLink="/stock-concluded" (click)="onSidenavClose()">
+    <mat-icon>report_gmailerrorred</mat-icon>
+    <span class="nav-caption">Pedidos Concluidos</span>
   </a>
   <a mat-list-item routerLink="settings" (click)="onSidenavClose()">
     <mat-icon>settings</mat-icon>
