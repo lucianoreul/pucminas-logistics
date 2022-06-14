@@ -37,10 +37,6 @@ public class AccountService {
         return getRepository().findByUsername(username);
     }
 
-    public Account findById(Integer id) {
-        return getRepository().findById(id).orElseThrow();
-    }
-
     public Account login(String username, String password) {
         return getRepository().login(username, CryptoUtil.hash(password));
     }

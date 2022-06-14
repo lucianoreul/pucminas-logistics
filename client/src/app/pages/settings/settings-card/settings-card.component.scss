@@ -1,0 +1,23 @@
+.settings-card {
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+}
+
+a {
+  text-decoration: none;
+  color: #6B90E0;
+  font-size: 14px;
+}
+
+img {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+}

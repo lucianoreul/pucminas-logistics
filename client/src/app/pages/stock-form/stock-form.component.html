@@ -1,0 +1,36 @@
+<form class="d-flex flex-column form-container" name="form" role="form" (ngSubmit)="save()"
+      [formGroup]="form">
+
+  <mat-form-field appearance="fill" class="mt-4">
+    <mat-label>Desenho</mat-label>
+    <input matInput formControlName="drawing" maxlength="10" minlength="6" type="number">
+    <mat-error *ngIf="form.get('drawing')?.invalid">Este campo deve ser preenhido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Localização</mat-label>
+    <input matInput formControlName="location" type="number">
+    <mat-error *ngIf="form.get('location')?.invalid">Este campo deve ser preenhido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Quantidade</mat-label>
+    <input matInput formControlName="quantity" type="number">
+    <mat-error *ngIf="form.get('quantity')?.invalid">Este campo deve ser preenhido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Código da embalagem</mat-label>
+    <input matInput formControlName="mdr" type="number">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput formControlName="description" maxlength="100" (focusout)="removeSpace('description')"></textarea>
+  </mat-form-field>
+
+  <div fxFlex fxLayout fxLayoutAlign="center">
+    <button mat-button class="form-btn" [disabled]="form.invalid || isSaving">Salvar</button>
+  </div>
+
+</form>

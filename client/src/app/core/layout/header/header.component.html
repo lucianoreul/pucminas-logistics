@@ -1,20 +1,22 @@
 <mat-toolbar>
-  <div fxHide.gt-xs>
-    <button mat-icon-button (click)="onToggleSidenav()">
+  <div fxFlex fxLayout fxLayoutAlign="start">
+    <button mat-icon-button *ngIf="hideMenuButton()" (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="!hideMenuButton()" (click)="back()">
+      <mat-icon>keyboard_return</mat-icon>
     </button>
   </div>
   <div>
-    <a routerLink="/home">Inicio</a>
+    <a *ngIf="isHome()" routerLink="/home">Inicio</a>
+    <a *ngIf="isStock()" routerLink="/stock">Atentimento de linha</a>
+    <a *ngIf="isSettings()" routerLink="/settings">Configurações</a>
+    <a *ngIf="isStockForm()" routerLink="/stock/new">Criação de pedido</a>
+    <a *ngIf="isStockView()" routerLink="/stock/view">Visualização de pedido</a>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <a routerLink="/owner">Atendimento de linha</a>
-      </li>
-      <li>
-        <a routerLink="/account">Conta</a>
-      </li>
-    </ul>
+  <div fxFlex fxLayout fxLayoutAlign="end">
+    <button mat-icon-button *ngIf="isStock()" (click)="goToStockForm()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 </mat-toolbar>

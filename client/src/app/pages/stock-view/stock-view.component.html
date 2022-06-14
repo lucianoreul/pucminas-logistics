@@ -1,0 +1,54 @@
+<div class="page-content">
+  <mat-card class="mx-3 mt-3">
+    <mat-card-content>
+      <p>Requisição</p>
+      <h6>{{ stock?.id }}</h6>
+      <p>Desenho</p>
+      <h6>{{ stock?.drawing }}</h6>
+      <p>Descrição</p>
+      <h6>{{ stock?.description }}</h6>
+      <div class="row">
+        <div class="col-6">
+          <p>Status</p>
+          <h6>{{ getStatus(stock?.status) }}</h6>
+        </div>
+        <div class="col-6">
+          <p>Localização</p>
+          <h6>{{ stock?.location }}</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Quantidade</p>
+          <h6>{{ stock?.quantity }}</h6>
+        </div>
+        <div class="col-6">
+          <p>MDR</p>
+          <h6>{{ stock?.mdr }}</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Parcial</p>
+          <h6>{{ stock?.partial ? 'Sim' : 'Não' }}</h6>
+        </div>
+        <div class="col-6">
+          <p>Problema?</p>
+          <h6>{{ stock?.justify ? stock?.justify : '-' }}</h6>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-6">
+          <button mat-raised-button class="btn-found" (click)="notFoundStock()">Não encontrato</button>
+        </div>
+        <div class="col-6">
+          <button mat-raised-button class="btn-acept" *ngIf="stock?.status === 1" (click)="iniciateStock()">Iniciar</button>
+          <button mat-raised-button class="btn-acept"
+                  [disabled]="stock?.status !== 2"
+                  *ngIf="stock?.status !== 1"
+                  (click)="concludeStock()">Concluir</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

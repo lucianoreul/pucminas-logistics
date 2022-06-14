@@ -1,1 +1,9 @@
-<p>stock works!</p>
+<div class="page-content">
+  <span class="page-description">Selecionar um pedido para operar...</span>
+  <div class="row">
+    <div class="col-12 stock-card-container" *ngFor="let stock of stockList">
+      <app-stock-card [stock]="stock"></app-stock-card>
+    </div>
+    <span class="notFound" *ngIf="stockList.length === 0">Nenhum pedido encontrado</span>
+  </div>
+</div>

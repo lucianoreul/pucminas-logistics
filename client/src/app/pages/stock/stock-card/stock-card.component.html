@@ -1,0 +1,23 @@
+<mat-card class="mx-3 mt-3" (click)="goToStockView()">
+  <mat-card-title-group>
+    <mat-card-title>{{ stock?.drawing }}</mat-card-title>
+    <mat-card-subtitle>{{ stock?.location }}</mat-card-subtitle>
+    <img mat-card-sm-image src="assets/icones/play-ic.svg" *ngIf="stock?.status === 2">
+    <img mat-card-sm-image src="assets/icones/pause-ic.svg" *ngIf="stock?.status === 1">
+    <img mat-card-sm-image src="assets/icones/check-ic.svg" *ngIf="stock?.status === 3">
+    <img mat-card-sm-image src="assets/icones/error-ic.svg" *ngIf="stock?.status === 4">
+  </mat-card-title-group>
+  <mat-card-content>
+    <div class="row">
+            <div class="col-4 mt-2">
+              <span>Códico: {{ stock?.id }}</span>
+            </div>
+            <div class="col-4 mt-2">
+              <span>Qtd: {{ stock?.quantity }}</span>
+            </div>
+            <div class="col-4 mt-2">
+              <span>MDR: {{ stock?.mdr }}</span>
+            </div>
+    </div>
+  </mat-card-content>
+</mat-card>

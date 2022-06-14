@@ -89,7 +89,7 @@ public class TokenAuthenticationService {
 
         Optional<Account> accountOptional = accountService.findByUsername(username);
 
-        if (accountOptional.isEmpty()) {
+        if (!accountOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
         }
 

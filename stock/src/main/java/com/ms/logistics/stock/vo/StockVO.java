@@ -9,21 +9,21 @@ public class StockVO {
 
     private Integer id;
 
-    private Long enter;
-
-    private Long request_number;
-
     private Long drawing;
-
-    private Long mdr;
 
     private Long location;
 
     private Integer quantity;
 
-    private boolean partial;
-
     private String description;
+
+    private Long mdr;
+
+    private Boolean partial;
+
+    private Integer status;
+
+    private String justify;
 
     public StockVO(Stock stock) {
         BeanUtils.copyProperties(stock, this);

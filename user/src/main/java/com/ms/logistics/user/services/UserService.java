@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public void createUser(UserDTO userDTO, Integer accountId) {
-        if (userRepository.findByAccountId(accountId).isEmpty()) {
+        if (userRepository.findByAccountId(accountId).isPresent()) {
             User user = new User(userDTO, accountId);
             this.userRepository.save(user);
         } else {

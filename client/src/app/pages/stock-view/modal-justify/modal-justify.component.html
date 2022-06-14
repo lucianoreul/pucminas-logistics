@@ -1,0 +1,32 @@
+<div class="modal-container">
+  <div class="modal-header justify-content-center">
+    <span class="modal-title">Atenção</span>
+    <span>Confirmar material não encontrado?</span>
+  </div>
+  <div class="modal-body justify-content-center">
+    <div>
+      <input type="checkbox" [ngModel]="checkJustify('Material Ausente')" (click)="selectJustify('Material Ausente')">
+      <label>Material Ausente</label>
+    </div>
+    <div>
+      <input type="checkbox" [ngModel]="checkJustify('Material Divergente')" (click)="selectJustify('Material Divergente')">
+      <label>Material Divergente</label>
+    </div>
+    <div>
+      <input type="checkbox" [ngModel]="checkJustify('Material Danificado')" (click)="selectJustify('Material Danificado')">
+      <label>Material Danificado</label>
+    </div>
+    <div>
+      <input type="checkbox" [ngModel]="checkJustify('Outros')" (click)="selectJustify('Outros')">
+      <label>Outros</label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+      <span>CANCELAR</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="confirm()">
+      &nbsp;<span>CONFIRMAR</span>
+    </button>
+  </div>
+</div>

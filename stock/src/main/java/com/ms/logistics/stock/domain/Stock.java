@@ -1,5 +1,6 @@
 package com.ms.logistics.stock.domain;
 
+import com.ms.logistics.stock.dto.StockDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,17 +20,8 @@ public class Stock {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "enter")
-    private Long enter;
-
-    @Column(name = "request_number")
-    private Long request_number;
-
-    @Column(name = "drawing")
+    @Column(name = "drawing", nullable = false)
     private Long drawing;
-
-    @Column(name = "mdr")
-    private Long mdr;
 
     @Column(name = "location", nullable = false)
     private Long location;
@@ -37,9 +29,29 @@ public class Stock {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "partial")
-    private boolean partial;
-
     @Column(name = "description")
     private String description;
+
+    @Column(name = "mdr")
+    private Long mdr;
+
+    @Column(name = "partial")
+    private Boolean partial;
+
+    @Column(name = "status", nullable = false)
+    private Integer status = 1;
+
+    @Column(name = "justify")
+    private String justify;
+
+    public Stock (StockDTO dto) {
+        this.drawing = dto.getDrawing();
+        this.location = dto.getLocation();
+        this.quantity = dto.getQuantity();
+        this.description = dto.getDescription();
+        this.mdr = dto.getMdr();
+        this.partial = dto.getPartial();
+        this.status = dto.getStatus();
+        this.justify = dto.getJustify();
+    }
 }

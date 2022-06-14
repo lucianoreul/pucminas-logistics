@@ -1,6 +1,5 @@
 package com.ms.logistics.auth;
 
-import com.ms.logistics.auth.exception.BusinessException;
 import com.ms.logistics.auth.model.Account;
 import com.ms.logistics.auth.model.Role;
 import com.ms.logistics.auth.service.AccountService;
@@ -33,11 +32,11 @@ public class MsAuthApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		this.createAdminUser();
 	}
 
-	private void createAdminUser() throws BusinessException {
+	private void createAdminUser() {
 		String usernameAdmin = "admin";
 		String passwordAdmin = "admin@admin";
 		if (Objects.isNull(this.accountService.findByUsername(usernameAdmin))) {
