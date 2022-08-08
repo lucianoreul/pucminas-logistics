@@ -15,16 +15,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Crud Service for model: Stock.
+ *
+ * @author LucianoReul
+ */
 @Service
 @AllArgsConstructor
 public class StockService {
 
+    /**
+     * Stock repository
+     */
     private final StockRepository stockRepository;
 
+    /**
+     * Find a stock by id
+     * @param id
+     * @return Optional<Stock>
+     */
     public Optional<Stock> findById(Integer id) {
         return this.stockRepository.findById(id);
     }
 
+    /**
+     *  Get a stock by id to VO
+     *
+     * @param id
+     * @return StockVO
+     */
     public StockVO getById(Integer id) {
         Optional<Stock> stockOptional = this.findById(id);
         if (stockOptional.isPresent()) {
@@ -34,12 +53,24 @@ public class StockService {
         }
     }
 
+    /**
+     * Create a new Stock
+     *
+     * @param dto
+     * @return StockVO
+     */
     public StockVO create(StockDTO dto) {
         Stock stock = new Stock(dto);
         stockRepository.save(stock);
         return new StockVO(stock);
     }
 
+    /**
+     * Get stock list
+     *
+     * @param operation
+     * @return List<StockVO>
+     */
     public List<StockVO> getAll(boolean operation) {
         if (operation) {
             return this.stockRepository.findAll().stream().filter(stock -> stock.getStatus() == 1 || stock.getStatus() == 2).map(StockVO::new).collect(Collectors.toList());
@@ -48,6 +79,13 @@ public class StockService {
         }
     }
 
+    /**
+     * Update a stock from database
+     *
+     * @param id
+     * @param dto
+     * @return StockVO
+     */
     @Transactional
     public StockVO update(Integer id, StockDTO dto) {
         Optional<Stock> stockOptional = this.findById(id);
@@ -68,6 +106,12 @@ public class StockService {
         }
     }
 
+    /**
+     * change stock status to TRANSIT
+     *
+     * @param id
+     * @return
+     */
     public StockVO activate(Integer id) {
         Optional<Stock> stockOptional = this.findById(id);
         if (stockOptional.isPresent()) {

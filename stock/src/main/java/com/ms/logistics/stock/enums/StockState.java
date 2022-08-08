@@ -2,6 +2,11 @@ package com.ms.logistics.stock.enums;
 
 import lombok.Getter;
 
+/**
+ * Enum to define state of the stock
+ *
+ * @author LucianoReul
+ */
 @Getter
 public enum StockState {
 
@@ -18,6 +23,12 @@ public enum StockState {
         this.description = description;
     }
 
+    /**
+     * Convert a code to enum
+     *
+     * @param code
+     * @return
+     */
     public static StockState toEnum(Integer code) {
         if (code == null) {
             return null;

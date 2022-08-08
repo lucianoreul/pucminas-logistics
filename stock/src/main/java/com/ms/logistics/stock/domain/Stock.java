@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Model for table: Stock.
+ *
+ * @author LucianoReul
+ */
 @Entity(name = "stock")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,32 +20,59 @@ import javax.persistence.*;
 @Setter
 public class Stock {
 
+    /**
+     * ID
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
+    /**
+     * DRAWING
+     */
     @Column(name = "drawing", nullable = false)
     private Long drawing;
 
+    /**
+     * LOCATION
+     */
     @Column(name = "location", nullable = false)
     private Long location;
 
+    /**
+     * QUANTITY
+     */
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    /**
+     * DESCRIPTION
+     */
     @Column(name = "description")
     private String description;
 
+    /**
+     * MDR
+     */
     @Column(name = "mdr")
     private Long mdr;
 
+    /**
+     * PARTIAL
+     */
     @Column(name = "partial")
     private Boolean partial;
 
+    /**
+     * STATUS
+     */
     @Column(name = "status", nullable = false)
     private Integer status = 1;
 
+    /**
+     * JUSTIFY
+     */
     @Column(name = "justify")
     private String justify;
 
