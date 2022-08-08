@@ -3,6 +3,14 @@ package com.ms.logistics.auth.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Exception for business errors or validations.
+ *
+ * Should contain a user friendly message.
+ * Ex: "There is an item with the same name".
+ *
+ * @author LucianoReul
+ */
 public class BusinessException extends Exception {
 
     /**

@@ -1,7 +1,6 @@
 package com.ms.logistics.auth.service;
 
-import com.ms.logistics.auth.dto.LoggedAccountDTO;
-import com.ms.logistics.auth.exception.BusinessException;
+import com.ms.logistics.auth.vo.LoggedAccountVO;
 import com.ms.logistics.auth.model.Account;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
@@ -21,6 +20,11 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
+/**
+ * Service for Token Authentication.
+ *
+ * @author LucianoReul
+ */
 @Service
 public class TokenAuthenticationService {
 
@@ -28,54 +32,89 @@ public class TokenAuthenticationService {
 
     private static final String AUTHORITIES_KEY = "auth";
 
+    /**
+     * Secret key to create de token
+     */
     @Value("${app.token.secretkey}")
     private String SECRET_KEY;
 
+    /**
+     * Token Expiration.
+     */
     @Value("${app.token.expiration}")
     private long EXPIRATION_TOKEN;
 
+    /**
+     * Refresh Token Expiration.
+     */
     @Value("${app.refreshtoken.expiration}")
     private long EXPIRATION_REFRESH_TOKEN;
 
+    /**
+     * Account service
+     */
     private final AccountService accountService;
 
     private final Logger log = LoggerFactory.getLogger(TokenAuthenticationService.class);
 
+    /**
+     * Constructor
+     *
+     * @param accountService
+     */
     public TokenAuthenticationService(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    public LoggedAccountDTO addAuthentication(LoggedAccountDTO dto) {
-        String jwt = Jwts.builder().setId(String.valueOf(dto.getId())).setSubject(dto.getUsername())
-                .claim(AUTHORITIES_KEY, dto.getRole())
+    /**
+     * Adds the authentication in the response.
+     *
+     * @param vo
+     * @return LoggedAccountVO
+     */
+    public LoggedAccountVO addAuthentication(LoggedAccountVO vo) {
+        String jwt = Jwts.builder().setId(String.valueOf(vo.getId())).setSubject(vo.getUsername())
+                .claim(AUTHORITIES_KEY, vo.getRole())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
 
-        String refresh = Jwts.builder().setId(String.valueOf(dto.getId())).setSubject(dto.getUsername())
-                .claim(AUTHORITIES_KEY, dto.getRole())
+        String refresh = Jwts.builder().setId(String.valueOf(vo.getId())).setSubject(vo.getUsername())
+                .claim(AUTHORITIES_KEY, vo.getRole())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_REFRESH_TOKEN))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
 
-        dto.setAccessToken(String.format("%s %s", TOKEN_PREFIX, jwt));
-        dto.setRefreshToken(String.format("%s %s", TOKEN_PREFIX, refresh));
+        vo.setAccessToken(String.format("%s %s", TOKEN_PREFIX, jwt));
+        vo.setRefreshToken(String.format("%s %s", TOKEN_PREFIX, refresh));
 
-        return dto;
+        return vo;
     }
 
+    /**
+     * Gets the refresh authentication.
+     *
+     * @param refreshToken
+     * @return Refresh Authentication.
+     */
     public Authentication getRefreshAuthentication(String refreshToken) {
         if (refreshToken != null) {
             Claims claims = Jwts.parser().setSigningKey(SECRET_KEY)
                     .parseClaimsJws(refreshToken.replace(TOKEN_PREFIX, "").trim()).getBody();
 
             if (claims != null) {
-                LoggedAccountDTO userDTO = new LoggedAccountDTO(Integer.valueOf(claims.getId()), claims.getSubject());
+                LoggedAccountVO userDTO = new LoggedAccountVO(Integer.valueOf(claims.getId()), claims.getSubject());
                 return new UsernamePasswordAuthenticationToken(userDTO, null, emptyList());
             }
         }
         return null;
     }
 
-    public LoggedAccountDTO isTokenInvalid(String token) {
+    /**
+     * Check if the token is valid
+     *
+     * @param token
+     * @return LoggedAccountVO
+     */
+    public LoggedAccountVO isTokenInvalid(String token) {
         String username;
         try {
             username = Jwts.parser()
@@ -84,7 +123,7 @@ public class TokenAuthenticationService {
                 .getBody()
                 .getSubject();
         } catch (JwtException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,"Token inválido");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED , "Token Invalid");
         }
 
         Optional<Account> accountOptional = accountService.findByUsername(username);
@@ -97,8 +136,15 @@ public class TokenAuthenticationService {
         return toDTO(account, token);
     }
 
-    private LoggedAccountDTO toDTO(Account account, String token) {
-        LoggedAccountDTO dto = new LoggedAccountDTO();
+    /**
+     * Converts Account to LoggedAccountVO with tokens
+     *
+     * @param account account data
+     * @param token token string
+     * @return LoggedAccountVO
+     */
+    private LoggedAccountVO toDTO(Account account, String token) {
+        LoggedAccountVO dto = new LoggedAccountVO();
         dto.setId(account.getId());
         dto.setUsername(account.getUsername());
         dto.setRole(account.getRole());

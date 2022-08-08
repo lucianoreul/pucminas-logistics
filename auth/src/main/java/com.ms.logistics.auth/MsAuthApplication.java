@@ -14,6 +14,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
+/**
+ * Main class of application.
+ *
+ * @author LucianoReul
+ */
 @SpringBootApplication
 @AllArgsConstructor
 @EnableFeignClients
@@ -21,6 +26,11 @@ public class MsAuthApplication implements CommandLineRunner {
 
 	public final AccountService accountService;
 
+	/**
+	 * MAIN
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(MsAuthApplication.class, args);
 	}
@@ -36,6 +46,9 @@ public class MsAuthApplication implements CommandLineRunner {
 		this.createAdminUser();
 	}
 
+	/**
+	 * Create a default account to access the system
+	 */
 	private void createAdminUser() {
 		String usernameAdmin = "admin";
 		String passwordAdmin = "admin@admin";

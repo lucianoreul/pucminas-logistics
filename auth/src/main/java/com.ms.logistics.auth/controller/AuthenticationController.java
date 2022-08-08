@@ -1,10 +1,9 @@
 package com.ms.logistics.auth.controller;
 
 import com.ms.logistics.auth.dto.AccountDTO;
-import com.ms.logistics.auth.dto.LoggedAccountDTO;
+import com.ms.logistics.auth.vo.LoggedAccountVO;
 import com.ms.logistics.auth.dto.TokenDTO;
-import com.ms.logistics.auth.exception.BusinessException;
-import com.ms.logistics.auth.model.AccountCredentials;
+import com.ms.logistics.auth.dto.AccountCredentialsDTO;
 import com.ms.logistics.auth.service.AccountService;
 import com.ms.logistics.auth.service.AuthenticationService;
 import com.ms.logistics.auth.service.TokenAuthenticationService;
@@ -17,37 +16,80 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.logging.Logger;
 
+/***
+ * Rest Controller for Authentication microsservice
+ *
+ * @author LucianoReul
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    /**
+     * Authentication service
+     */
     private final AuthenticationService authService;
+
+    /**
+     * Account service
+     */
     private final AccountService accountService;
+
+    /**
+     * Token service
+     */
     private final TokenAuthenticationService tokenAuthenticationService;
 
+    /**
+     * Logger object
+     */
     private static final Logger LOGGER = Logger.getLogger(AuthenticationController.class.getName());
 
+    /**
+     * Login endpoint
+     *
+     * @param credentials
+     * @return LoggedAccountDTO
+     */
     @PostMapping(value = "/login")
-    public ResponseEntity<LoggedAccountDTO> login(@RequestBody AccountCredentials credentials) {
-        LoggedAccountDTO loggedAccountDTO = authService.authenticate(credentials);
+    public ResponseEntity<LoggedAccountVO> login(@RequestBody AccountCredentialsDTO credentials) {
+        LoggedAccountVO loggedAccountDTO = authService.authenticate(credentials);
         LOGGER.info("Successfully authenticated with: " + credentials.getUsername());
         return ResponseEntity.ok(loggedAccountDTO);
     }
 
+    /**
+     * Refresh authentication endpoint
+     *
+     * @param body TokenDTO with refresh token
+     * @return LoggedAccountDTO
+     */
     @PostMapping(value = "/refresh")
-    public ResponseEntity<LoggedAccountDTO> refresh(@RequestBody TokenDTO body) {
+    public ResponseEntity<LoggedAccountVO> refresh(@RequestBody TokenDTO body) {
         return ResponseEntity.ok(authService.refresh(body));
     }
 
+    /**
+     *  Create account endpoint
+     *
+     * @param accountDTO object with credentials
+     * @return HttpStatus ok if success
+     */
     @PostMapping(value = "/create")
     public ResponseEntity<Void> register(@Valid @NotNull @RequestBody AccountDTO accountDTO) {
         this.accountService.createAccount(accountDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Token validate endpoint, necessary to gateway service validate a token
+     *
+     * @param token
+     * @return LoggedAccountDTO
+     */
     @PostMapping(value = "/validate")
-    public ResponseEntity<LoggedAccountDTO> validate(@Valid @NotNull @RequestParam String token) {
+    public ResponseEntity<LoggedAccountVO> validate(@Valid @NotNull @RequestParam String token) {
         LOGGER.info("Trying to validate token: " + token);
         return ResponseEntity.ok(tokenAuthenticationService.isTokenInvalid(token));
     }

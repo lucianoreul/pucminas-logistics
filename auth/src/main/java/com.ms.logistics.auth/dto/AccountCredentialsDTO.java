@@ -1,6 +1,11 @@
-package com.ms.logistics.auth.model;
+package com.ms.logistics.auth.dto;
 
-public class AccountCredentials {
+/**
+ * DTO for login: Account Credentials.
+ *
+ * @author LucianoReul
+ */
+public class AccountCredentialsDTO {
 
     private String username;
 

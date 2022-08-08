@@ -1,10 +1,9 @@
 package com.ms.logistics.auth.service;
 
-import com.ms.logistics.auth.dto.LoggedAccountDTO;
+import com.ms.logistics.auth.vo.LoggedAccountVO;
 import com.ms.logistics.auth.dto.TokenDTO;
-import com.ms.logistics.auth.exception.BusinessException;
 import com.ms.logistics.auth.model.Account;
-import com.ms.logistics.auth.model.AccountCredentials;
+import com.ms.logistics.auth.dto.AccountCredentialsDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,52 +15,93 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Service for Authentication
+ *
+ * @author LucianoReul
+ */
 @Service
 @AllArgsConstructor
 public class AuthenticationService {
 
+    /**
+     * Token service
+     */
     private final TokenAuthenticationService tokenService;
 
+    /**
+     * Account Service
+     */
     private final AccountService accountService;
 
-    public Authentication attemptAuthentication(AccountCredentials credentials) {
+    /**
+     * Attempt authentication
+     *
+     * @param credentials
+     * @return Authentication with LoggedAccountVO as principal
+     */
+    public Authentication attemptAuthentication(AccountCredentialsDTO credentials) {
         Account loggedAccount = accountService.login(credentials.getUsername(), credentials.getPassword());
         if (loggedAccount == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,"Credenciais invalida");
         }
-        LoggedAccountDTO loggedAccountDTO = toDTO(loggedAccount);
+        LoggedAccountVO loggedAccountDTO = toDTO(loggedAccount);
         tokenService.addAuthentication(loggedAccountDTO);
         return new UsernamePasswordAuthenticationToken(loggedAccountDTO, null, Collections.emptyList());
     }
 
-    public LoggedAccountDTO authenticate(AccountCredentials credentials) {
+    /**
+     * Authenticates an user in the security context
+     *
+     * @param credentials
+     * @return LoggedAccountVO for the authenticated user
+     */
+    public LoggedAccountVO authenticate(AccountCredentialsDTO credentials) {
         Authentication auth = attemptAuthentication(credentials);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return (LoggedAccountDTO) auth.getPrincipal();
+        return (LoggedAccountVO) auth.getPrincipal();
     }
 
+    /**
+     * Attempt to refresh the current authentication
+     *
+     * @param token
+     * @return Authentication with LoggedAccountVO as principal
+     */
     public Authentication attemptRefresh(TokenDTO token) {
         Authentication auth = tokenService.getRefreshAuthentication(token.getRefreshToken());
         if (auth == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Falha na Autenticação.");
         }
-        Optional<Account> accountOptional = accountService.findByUsername(((LoggedAccountDTO) auth.getPrincipal()).getUsername());
+        Optional<Account> accountOptional = accountService.findByUsername(((LoggedAccountVO) auth.getPrincipal()).getUsername());
         if (accountOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Falha na Autenticação.");
         }
-        LoggedAccountDTO loggedUser = toDTO(accountOptional.get());
+        LoggedAccountVO loggedUser = toDTO(accountOptional.get());
         tokenService.addAuthentication(loggedUser);
         return new UsernamePasswordAuthenticationToken(loggedUser, null, Collections.emptyList());
     }
 
-    public LoggedAccountDTO refresh(TokenDTO token) {
+    /**
+     * Refresh current authentication in the security context
+     *
+     * @param token
+     * @return LoggedAccountVO updated
+     */
+    public LoggedAccountVO refresh(TokenDTO token) {
         Authentication auth = attemptRefresh(token);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return (LoggedAccountDTO) auth.getPrincipal();
+        return (LoggedAccountVO) auth.getPrincipal();
     }
 
-    private LoggedAccountDTO toDTO(Account account) {
-        LoggedAccountDTO dto = new LoggedAccountDTO();
+    /**
+     * Converts Account to LoggedAccountVO
+     *
+     * @param account
+     * @return LoggedAccountVO representation
+     */
+    private LoggedAccountVO toDTO(Account account) {
+        LoggedAccountVO dto = new LoggedAccountVO();
         dto.setId(account.getId());
         dto.setUsername(account.getUsername());
         dto.setRole(account.getRole());
